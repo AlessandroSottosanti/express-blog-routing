@@ -62,25 +62,59 @@ router.get('/:id', (req, res) => {
         res.json({
             message: "Error 404, post not found :("
         });
-        console.error(chalk.red.bold("Error 404, post not found :("));    }
+        console.error(chalk.red.bold("Error 404, post not found :("));    
+    }
 });
 
 // update
 router.put('/:id', (req, res) => {
-    const postId = req.params.id;
-    res.json('modifico un intero elemento nei miei dati tramite id ' + postId);
+    const postId = parseInt(req.params.id);
+    const post = postsList.find(p => p.id === postId);
+
+    if (post) {
+        res.json('modifico un intera risorsa nei miei dati tramite id ' + postId);
+    } 
+    else {
+        res.json({
+            message: "Error 404, post not found :("
+        });
+        console.error(chalk.red.bold("Error 404, post not found :("));
+    }
+
 });
 
 // modify
 router.patch('/:id', (req, res) => {
-    const postId = req.params.id;
-    res.json('modifico uno o più parametri di un elemento nei miei dati tramite id ' + postId);
+    const postId = parseInt(req.params.id);
+    const post = postsList.find(p => p.id === postId);
+
+    if (post) {
+        res.json('modifico uno o più parametri di una risorsa nei miei dati tramite id ' + postId);
+    } 
+    else {
+        res.json({
+            message: "Error 404, post not found :("
+        });
+        console.error(chalk.red.bold("Error 404, post not found :("));
+    }
 });
 
 // destroy
 router.delete('/:id', (req, res) => {
-    const postId = req.params.id;
-    res.json('elimino un elemento nei miei dati tramite id ' + postId);
+    const postId = parseInt(req.params.id);
+
+    const post = postsList.find(p => p.id === postId);
+
+    if (post) {
+        res.json('elimino un elemento nei miei dati tramite id ' + postId);
+    } 
+    else {
+        res.json({
+            message: "Error 404, post not found :("
+        });
+        console.error(chalk.red.bold("Error 404, post not found :("));
+    }
+
 });
 
 
