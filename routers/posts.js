@@ -17,8 +17,7 @@ router.get('/', (req, res) => {
 // Api di ricerca che filtra in base al parametro passato per titolo
 router.get("/ricerca", (req, res) => {
     const title = req.query.title;
-    if(title.length >= 1) {
-        const titles = postsList.filter((curPost) => curPost.title.toLowerCase().includes(title.toLocaleLowerCase()));
+    const titles = postsList.filter((curPost) => curPost.title.toLowerCase().includes(title.toLocaleLowerCase()));
 
     const postsData = {
         posts: titles,
@@ -28,15 +27,8 @@ router.get("/ricerca", (req, res) => {
     if(titles.length >= 1){
         res.json(postsData);
     }
-    else{
-        res.json({
-            message: "Error 404, post not found :("
-        });
-
-        console.error(chalk.red.bold("Error 404, post not found :("));
-    }
-    }
-    else{
+    
+    else {
         res.json({
             message: "Error 404, post not found :("
         });
