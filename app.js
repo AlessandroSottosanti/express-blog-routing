@@ -9,7 +9,7 @@ const port = 3000;
 app.use(express.static("public"));
 
 // usiamo le rotte per i posts
-app.use('/bacheca', postsRouter);
+app.use('/posts', postsRouter);
 
 // porta in ascolto
 app.listen(port, () => {

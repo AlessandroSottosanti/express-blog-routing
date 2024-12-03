@@ -1,7 +1,6 @@
 import express from 'express';
 import { postsList } from '../data/postsData.js';
 import chalk from 'chalk';
-import { error } from 'console';
 
 const router = express.Router();
 
@@ -53,8 +52,17 @@ router.post('/', (req, res) => {
 
 // show
 router.get('/:id', (req, res) => {
-    const postId = req.params.id;
-    res.json('leggiamo un dato specifico tramite id ' + postId);
+    const postId = parseInt(req.params.id);
+    const post = postsList.find(p => p.id === postId);
+
+    if (post) {
+        res.json(post); // Restituisce il post se trovato
+    } 
+    else {
+        res.json({
+            message: "Error 404, post not found :("
+        });
+        console.error(chalk.red.bold("Error 404, post not found :("));    }
 });
 
 // update
