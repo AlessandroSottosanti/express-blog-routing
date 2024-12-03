@@ -13,15 +13,27 @@ router.get('/', (req, res) => {
     );
 });
 
-// show
-router.get('/:id', (req, res) => {
-    const postId = req.params.id;
-    res.json('leggiamo un dato specifico tramite id ' + postId);
+// Api di ricerca che filtra in base al parametro passato per titolo
+router.get("/ricerca", (req, res) => {
+    const title = req.query.title;
+    const titles = postsList.filter((curPost) => curPost.title.toLowerCase().includes(title.toLocaleLowerCase()));
+
+    const postsData = {
+        posts: titles,
+        total: titles.length
+    };
+    res.json(postsData);
 });
 
 // create 
 router.post('/', (req, res) => {
     res.json('aggiungo un nuovo elemento nei miei dati');
+});
+
+// show
+router.get('/:id', (req, res) => {
+    const postId = req.params.id;
+    res.json('leggiamo un dato specifico tramite id ' + postId);
 });
 
 // update
@@ -41,19 +53,6 @@ router.delete('/:id', (req, res) => {
     const postId = req.params.id;
     res.json('elimino un elemento nei miei dati tramite id ' + postId);
 });
-
-// Api di ricerca che filtra in base al parametro passato per titolo
-router.get("/ricerca", (req, res) => {
-    const title = req.query.title;
-    const titles = postsList.filter((curPost) => curPost.title.toLowerCase().includes(title.toLocaleLowerCase()));
-
-    const postsData = {
-        posts: titles,
-        total: titles.length
-    };
-    res.json(postsData);
-});
-
 
 
 export default router;
