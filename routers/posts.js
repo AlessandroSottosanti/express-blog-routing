@@ -29,6 +29,7 @@ router.get("/ricerca", (req, res) => {
     }
     
     else {
+        res.statusCode = 404;
         res.json({
             message: "Error 404, post not found :("
         });
@@ -51,6 +52,7 @@ router.get('/:id', (req, res) => {
         res.json(post); // Restituisce il post se trovato
     } 
     else {
+        res.statusCode = 404;
         res.json({
             message: "Error 404, post not found :("
         });
@@ -67,6 +69,7 @@ router.put('/:id', (req, res) => {
         res.json('modifico un intera risorsa nei miei dati tramite id ' + postId);
     } 
     else {
+        res.statusCode = 404;
         res.json({
             message: "Error 404, post not found :("
         });
@@ -84,6 +87,7 @@ router.patch('/:id', (req, res) => {
         res.json('modifico uno o più parametri di una risorsa nei miei dati tramite id ' + postId);
     } 
     else {
+        res.statusCode = 404;
         res.json({
             message: "Error 404, post not found :("
         });
@@ -101,6 +105,7 @@ router.delete('/:id', (req, res) => {
         res.json('elimino un elemento nei miei dati tramite id ' + postId);
     } 
     else {
+        res.statusCode = 404;
         res.json({
             message: "Error 404, post not found :("
         });
