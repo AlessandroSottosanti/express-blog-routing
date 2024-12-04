@@ -31,6 +31,7 @@ router.get("/ricerca", (req, res) => {
     else {
         res.statusCode = 404;
         res.json({
+            error: true,
             message: "Error 404, post not found :("
         });
         console.error(chalk.red.bold("Error 404, post not found :("));
@@ -54,6 +55,7 @@ router.get('/:id', (req, res) => {
     else {
         res.statusCode = 404;
         res.json({
+            error: true,
             message: "Error 404, post not found :("
         });
         console.error(chalk.red.bold("Error 404, post not found :("));    
@@ -71,6 +73,7 @@ router.put('/:id', (req, res) => {
     else {
         res.statusCode = 404;
         res.json({
+            error: true,
             message: "Error 404, post not found :("
         });
         console.error(chalk.red.bold("Error 404, post not found :("));
@@ -89,6 +92,7 @@ router.patch('/:id', (req, res) => {
     else {
         res.statusCode = 404;
         res.json({
+            error: true,
             message: "Error 404, post not found :("
         });
         console.error(chalk.red.bold("Error 404, post not found :("));
@@ -107,6 +111,7 @@ router.delete('/:id', (req, res) => {
     else {
         res.statusCode = 404;
         res.json({
+            error: true,
             message: "Error 404, post not found :("
         });
         console.error(chalk.red.bold("Error 404, post not found :("));
