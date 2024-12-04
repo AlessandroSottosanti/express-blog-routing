@@ -2,12 +2,21 @@ import { postsList } from '../data/postsData.js';
 import chalk from 'chalk';
 
 
-const index =  (req, res) => {
+const newPost = {
+    id: postsList.length + 1,
+    title: "New Hardcoded Post",
+    content: "This is a hardcoded post content.",
+    image: "https://via.placeholder.com/150",
+    tags: ["hardcoded", "example"]
+};
+
+const index = (req, res) => {
 
     const tag = req.query.tag;
-    let filteredPosts = [];
+    let filteredPosts = postsList;
 
     if(tag) {
+        filteredPosts = [];
         postsList.forEach(curPost => {
             curPost.tags.forEach(curTag => {
                 if (curTag.toLowerCase() === tag.toLowerCase()) {
@@ -15,10 +24,6 @@ const index =  (req, res) => {
                 }
             });
         });
-    }
-
-    else {
-        filteredPosts = postsList;
     }
 
     res.json(
@@ -47,19 +52,27 @@ const show = (req, res) => {
 }
 
 const create = (req, res) => {
-    res.json('aggiungo un nuovo elemento nei miei dati');
+    postsList.push(newPost);
+    res.status(201).json(newPost);
 }
 
 const update = (req, res) => {
     const postId = parseInt(req.params.id);
-    const post = postsList.find(curPost => curPost.id === postId);
+    const postIndex = postsList.findIndex(curPost => curPost.id === postId);
 
-    if (post) {
-        res.json('modifico un intera risorsa nei miei dati tramite id ' + postId);
-    } 
-    else {
-        res.statusCode = 404;
-        res.json({
+    if (postIndex !== -1) {
+        const updatedPost = {
+            id: postId,
+            title: newPost.title,
+            content: newPost.content,
+            image: newPost.image,
+            tags: newPost.tags
+        };
+
+        postsList[postIndex] = updatedPost;
+        res.json(updatedPost);
+    } else {
+        res.status(404).json({
             error: true,
             message: "Error 404, post not found :("
         });
@@ -73,8 +86,11 @@ const modify = (req, res) => {
     const post = postsList.find(curPost => curPost.id === postId);
 
     if (post) {
-        res.json('modifico uno o più parametri di una risorsa nei miei dati tramite id ' + postId);
-    } 
+        post.title = newPost.title;
+        post.tags.push(newPost.tags[0]);
+
+        res.json(post);
+        } 
     else {
         res.statusCode = 404;
         res.json({
