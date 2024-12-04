@@ -1,6 +1,6 @@
 import { postsList } from '../data/postsData.js';
 import chalk from 'chalk';
-
+import { send404Error } from '../helpers/errorsApi.js';
 
 const newPost = {
     id: postsList.length + 1,
@@ -42,12 +42,7 @@ const show = (req, res) => {
         res.json(post); // Restituisce il post se trovato
     } 
     else {
-        res.statusCode = 404;
-        res.json({
-            error: true,
-            message: "Error 404, post not found :("
-        });
-        console.error(chalk.red.bold("Error 404, post not found :("));    
+        send404Error(res, "Error 404, post not found :(");
     }
 }
 
@@ -72,11 +67,7 @@ const update = (req, res) => {
         postsList[postIndex] = updatedPost;
         res.json(updatedPost);
     } else {
-        res.status(404).json({
-            error: true,
-            message: "Error 404, post not found :("
-        });
-        console.error(chalk.red.bold("Error 404, post not found :("));
+        send404Error(res, "Error 404, post not found :(");
     }
 
 }
@@ -92,12 +83,7 @@ const modify = (req, res) => {
         res.json(post);
         } 
     else {
-        res.statusCode = 404;
-        res.json({
-            error: true,
-            message: "Error 404, post not found :("
-        });
-        console.error(chalk.red.bold("Error 404, post not found :("));
+        send404Error(res, "Error 404, post not found :(");
     }
 }
 
@@ -107,12 +93,7 @@ const destroy = (req, res) => {
     const postIndex = postsList.findIndex(curPost => curPost.id === postId);
 
     if (postIndex === -1) {
-        res.statusCode = 404;
-        res.json({
-            error: true,
-            message: "Error 404, post not found :("
-        });
-        console.error(chalk.red.bold("Error 404, post not found :("));
+        send404Error(res, "Error 404, post not found :(");
     } 
     else {
         postsList.splice(postIndex, 1)
