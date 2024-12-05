@@ -31,10 +31,9 @@ I dati sono definiti in `postsData.js` come un array di oggetti, ciascuno rappre
 
 - **Crea un router con Express**: Gestisce le rotte per i post.
 - **Rotte principali**:
-  - **GET `/posts`**: Restituisce tutti i post con il conteggio totale.
-  - **GET `/posts/ricerca?title=xyz`**: Filtra i post in base al titolo.
+  - **GET `/posts/`**: Restituisce tutti i post con il conteggio totale o filtrare per tag.
   - **GET `/posts/:id`**: Restituisce un post specifico per ID.
-  - **POST `/posts`**: Simula la creazione di un nuovo post.
+  - **POST `/posts/`**: Simula la creazione di un nuovo post.
   - **PUT `/posts/:id`**: Simula l'aggiornamento completo di un post.
   - **PATCH `/posts/:id`**: Simula l'aggiornamento parziale di un post.
   - **DELETE `/posts/:id`**: Simula l'eliminazione di un post.

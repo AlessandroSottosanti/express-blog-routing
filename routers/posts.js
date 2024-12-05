@@ -6,11 +6,11 @@ const router = express.Router();
 // index posts
 router.get('/', postController.index);
 
-// create 
-router.post('/', postController.create);
-
 // show
 router.get('/:id', postController.show);
+
+// store 
+router.post('/', postController.create);
 
 // update
 router.put('/:id', postController.update);

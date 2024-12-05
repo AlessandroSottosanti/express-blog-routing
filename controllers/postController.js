@@ -1,14 +1,5 @@
 import { postsList } from '../data/postsData.js';
-import chalk from 'chalk';
 import { send404Error } from '../helpers/errorsApi.js';
-
-const newPost = {
-    id: postsList.length + 1,
-    title: "New Hardcoded Post",
-    content: "This is a hardcoded post content.",
-    image: "https://via.placeholder.com/150",
-    tags: ["hardcoded", "example"]
-};
 
 const index = (req, res) => {
 
@@ -46,8 +37,22 @@ const show = (req, res) => {
     }
 }
 
+// store
 const create = (req, res) => {
+
+    const newId = postsList[postsList.length - 1].id + 1;
+
+    const newPost = {
+        id: newId,
+        ...req.body
+    }
+
+    console.log(newPost);
+
     postsList.push(newPost);
+
+    console.log(postsList);
+    
     res.status(201).json(newPost);
 }
 
@@ -58,10 +63,7 @@ const update = (req, res) => {
     if (postIndex !== -1) {
         const updatedPost = {
             id: postId,
-            title: newPost.title,
-            content: newPost.content,
-            image: newPost.image,
-            tags: newPost.tags
+            ...req.body
         };
 
         postsList[postIndex] = updatedPost;
@@ -77,15 +79,19 @@ const modify = (req, res) => {
     const post = postsList.find(curPost => curPost.id === postId);
 
     if (post) {
-        post.title = newPost.title;
-        post.tags.push(newPost.tags[0]);
+        Object.keys(req.body).forEach(key => {
+            if (key !== 'id') {
+                post[key] = req.body[key];
+            }
+        });
 
         res.json(post);
-        } 
+    } 
     else {
         send404Error(res, "Error 404, post not found :(");
     }
-}
+};
+
 
 const destroy = (req, res) => {
     const postId = parseInt(req.params.id);

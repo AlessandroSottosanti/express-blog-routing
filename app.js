@@ -5,6 +5,8 @@ import postsRouter from './routers/posts.js';
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+
 // cartella public visibile a tutti
 app.use(express.static("public"));
 
