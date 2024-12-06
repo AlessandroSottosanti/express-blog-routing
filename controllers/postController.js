@@ -1,12 +1,11 @@
 import { postsList } from '../data/postsData.js';
-import { send404Error } from '../helpers/errorsApi.js';
 
 const index = (req, res) => {
 
     const tag = req.query.tag;
     let filteredPosts = postsList;
 
-    if(tag) {
+    if (tag) {
         filteredPosts = [];
         postsList.forEach(curPost => {
             curPost.tags.forEach(curTag => {
@@ -28,18 +27,13 @@ const index = (req, res) => {
 const show = (req, res) => {
     const postId = parseInt(req.params.id);
     const post = postsList.find(curPost => curPost.id === postId);
-
-    if (post) {
-        res.json(post); // Restituisce il post se trovato
-    } 
-    else {
-        send404Error(res, "Error 404, post not found :(");
-    }
+    res.json(post);
 }
 
 // store
 const create = (req, res) => {
-
+    
+    // Prende l'id dell'ultimo elemento della lista e lo aumenta di 1
     const newId = postsList[postsList.length - 1].id + 1;
 
     const newPost = {
@@ -52,7 +46,7 @@ const create = (req, res) => {
     postsList.push(newPost);
 
     console.log(postsList);
-    
+
     res.status(201).json(newPost);
 }
 
@@ -60,36 +54,28 @@ const update = (req, res) => {
     const postId = parseInt(req.params.id);
     const postIndex = postsList.findIndex(curPost => curPost.id === postId);
 
-    if (postIndex !== -1) {
-        const updatedPost = {
-            id: postId,
-            ...req.body
-        };
+    const updatedPost = {
+        id: postId,
+        ...req.body
+    };
 
-        postsList[postIndex] = updatedPost;
-        res.json(updatedPost);
-    } else {
-        send404Error(res, "Error 404, post not found :(");
-    }
+    postsList[postIndex] = updatedPost;
+    res.json(updatedPost);
+
 
 }
 
 const modify = (req, res) => {
     const postId = parseInt(req.params.id);
     const post = postsList.find(curPost => curPost.id === postId);
+    Object.keys(req.body).forEach(key => {
+        if (key !== 'id') {
+            post[key] = req.body[key];
+        }
+    });
 
-    if (post) {
-        Object.keys(req.body).forEach(key => {
-            if (key !== 'id') {
-                post[key] = req.body[key];
-            }
-        });
+    res.json(post);
 
-        res.json(post);
-    } 
-    else {
-        send404Error(res, "Error 404, post not found :(");
-    }
 };
 
 
@@ -98,14 +84,9 @@ const destroy = (req, res) => {
 
     const postIndex = postsList.findIndex(curPost => curPost.id === postId);
 
-    if (postIndex === -1) {
-        send404Error(res, "Error 404, post not found :(");
-    } 
-    else {
-        postsList.splice(postIndex, 1)
-        res.sendStatus(204);
-    }
+    postsList.splice(postIndex, 1)
+    res.sendStatus(204);
 
 }
 
-export default {index, show, create, update, modify, destroy};
+export default { index, show, create, update, modify, destroy };
